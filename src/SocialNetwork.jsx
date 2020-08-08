@@ -1,7 +1,12 @@
 import React from "react";
 import { AppRouter } from "./router/AppRouter";
-import { Animated } from "react-animated-css";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 export const SocialNetwork = () => {
-	return <AppRouter />;
+	return (
+		<Provider store={store}>
+			<AppRouter />
+		</Provider>
+	);
 };

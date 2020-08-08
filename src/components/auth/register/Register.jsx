@@ -1,16 +1,59 @@
 import React from "react";
 import { Form, Input, Button } from "./styles";
-import { Animated } from "react-animated-css";
+import { useForm } from "../../../hooks/useForm";
+import { useDispatch } from "react-redux";
+import { registerNewUser } from "../../../actions/auth";
 
 export const Register = () => {
+	const dispatch = useDispatch();
+	const [formValues, handleInputChange] = useForm({
+		username: "",
+		email: "",
+		password: "",
+		password2: "",
+	});
+	const { username, email, password, password2 } = formValues;
+
+	const handleRegister = (e) => {
+		e.preventDefault();
+		dispatch(registerNewUser(email, password, username));
+	};
+
 	return (
-		<Form className="animate__animated animate__fadeIn">
+		<Form
+			onSubmit={handleRegister}
+			className="animate__animated animate__fadeIn">
 			<h1>Register</h1>
 
-			<Input type="text" placeholder="Your email" />
-			<Input type="password" placeholder="Your password" />
-			<Input type="password" placeholder="Repeat password" />
-			<Button>Register</Button>
+			<Input
+				type="text"
+				placeholder="Your username"
+				name="username"
+				value={username}
+				onChange={handleInputChange}
+			/>
+			<Input
+				type="text"
+				placeholder="Your email"
+				name="email"
+				value={email}
+				onChange={handleInputChange}
+			/>
+			<Input
+				type="password"
+				placeholder="Your password"
+				name="password"
+				value={password}
+				onChange={handleInputChange}
+			/>
+			<Input
+				type="password"
+				placeholder="Repeat password"
+				name="password2"
+				value={password2}
+				onChange={handleInputChange}
+			/>
+			<Button type="submit">Register</Button>
 		</Form>
 	);
 };
