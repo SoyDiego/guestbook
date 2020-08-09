@@ -3,6 +3,7 @@ import { Form, Input, Button } from "./styles";
 import { useForm } from "../../../hooks/useForm";
 import { useDispatch } from "react-redux";
 import { registerNewUser } from "../../../actions/auth";
+import { formIsValid } from "../../../helpers/helpers";
 
 export const Register = () => {
 	const dispatch = useDispatch();
@@ -16,7 +17,10 @@ export const Register = () => {
 
 	const handleRegister = (e) => {
 		e.preventDefault();
-		dispatch(registerNewUser(email, password, username));
+
+		if (formIsValid(username, email, password, password2)) {
+			dispatch(registerNewUser(email, password, username));
+		}
 	};
 
 	return (
