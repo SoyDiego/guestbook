@@ -8,14 +8,13 @@ import {
 import { firebase } from "../firebase/config";
 import { Login } from "../components/auth/login/Login";
 import { Register } from "../components/auth/register/Register";
-import { Main } from "../components/auth/main/Main";
+import { Main } from "../components/main/Main";
 import { Navigation } from "../components/ui/Navigation/Navigation";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../actions/auth";
 
 export const AppRouter = () => {
 	const [checking, setChecking] = useState(true);
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const dispatch = useDispatch();
 
 	//Mantiene el usuario autenticado
@@ -23,13 +22,11 @@ export const AppRouter = () => {
 		firebase.auth().onAuthStateChanged(async (user) => {
 			if (user?.uid) {
 				dispatch(loginUser(user.uid, user.displayName));
-				setIsLoggedIn(true);
-			} else {
-				setIsLoggedIn(false);
 			}
+
 			setChecking(false);
 		});
-	}, [dispatch, setIsLoggedIn]);
+	}, [dispatch]);
 
 	if (checking) {
 		return <h1>Loading...</h1>;
@@ -50,7 +47,7 @@ export const AppRouter = () => {
 						<Main />
 					</Route>
 
-					<Redirect to="/auth/login" />
+					<Redirect to="/login" />
 				</Switch>
 			</div>
 		</Router>

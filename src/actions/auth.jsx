@@ -68,3 +68,21 @@ export const loginUser = (uid, username) => ({
 		username,
 	},
 });
+
+export const startLogout = () => {
+	return (dispatch) => {
+		firebase
+			.auth()
+			.signOut()
+			.then(() => {
+				dispatch(logoutUser());
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+};
+
+export const logoutUser = () => ({
+	type: types.logout,
+});
