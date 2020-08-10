@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 export const Nav = styled.nav`
 	background-color: #151711;
 	width: 100%;
+	height: 86px;
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
@@ -17,14 +18,13 @@ export const Nav = styled.nav`
 		margin: 0;
 		display: flex;
 		list-style: none;
-		padding: 1.5rem;
 	}
 `;
 
 export const NavItem = styled(NavLink)`
 	text-decoration: none;
 	color: white;
-	padding: 2rem;
+	padding: 1rem;
 	margin: 1rem;
 	cursor: pointer;
 `;

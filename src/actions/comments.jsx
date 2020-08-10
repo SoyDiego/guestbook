@@ -15,22 +15,43 @@ export const startNewComment = () => {
 
 		if (comment) {
 			const {
-				auth: { uid },
+				auth: { uid, username },
 			} = getState().auth;
 
 			const newComment = {
+				userId: uid,
+				username: username,
 				body: comment,
 				date: new Date().getTime(),
 			};
 
-			const doc = await db
-				.collection(`${uid}/guestbook/comments`)
-				.add(newComment);
+			const doc = await db.collection(`guestbook`).add(newComment);
 
 			dispatch(addNewComment(doc.id, newComment));
 		}
 	};
 };
+
+export const startLoadComments = () => {
+	return (dispatch) => {
+		db.collection("guestbook").onSnapshot((querySnapshot) => {
+			const comments = [];
+			querySnapshot.forEach((doc) => {
+				comments.push({
+					id: doc.id,
+					...doc.data(),
+				});
+
+				dispatch(loadComments(comments));
+			});
+		});
+	};
+};
+
+export const loadComments = (comments) => ({
+	type: types.commentsLoad,
+	payload: comments,
+});
 
 export const addNewComment = (id, comment) => ({
 	type: types.commentsAddNew,

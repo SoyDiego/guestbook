@@ -11,6 +11,11 @@ export const commentsReducer = (state = initialState, action) => {
 				...state,
 				comments: [action.payload, ...state.comments],
 			};
+		case types.commentsLoad:
+			return {
+				...state,
+				comments: [...action.payload],
+			};
 
 		default:
 			return state;
