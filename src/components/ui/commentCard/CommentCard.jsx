@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { Card, Author, ContainerAuthorDate } from "./styles";
 
 export const CommentCard = (comment) => {
@@ -8,7 +9,7 @@ export const CommentCard = (comment) => {
 			<p>{body}</p>
 			<ContainerAuthorDate>
 				<p>
-					<Author>{username}</Author> - {date}...
+					<Author>{username}</Author> - {moment(date).fromNow()}...
 				</p>
 			</ContainerAuthorDate>
 		</Card>
