@@ -17,7 +17,7 @@ export const Main = () => {
 			<h1>All our visitors :)</h1>
 			<CommentList className="animate__animated animate__fadeIn">
 				{comments.map((comment) => (
-					<CommentCard {...comment} />
+					<CommentCard key={comment.id} {...comment} />
 				))}
 			</CommentList>
 		</ContainerMain>

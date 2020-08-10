@@ -1,6 +1,7 @@
 import { db } from "../firebase/config";
 import { types } from "../types/types";
 import Swal from "sweetalert2";
+import { messageSweetAlert } from "../helpers/helpers";
 
 export const startNewComment = () => {
 	return async (dispatch, getState) => {
@@ -25,26 +26,35 @@ export const startNewComment = () => {
 				date: new Date().getTime(),
 			};
 
-			const doc = await db.collection(`guestbook`).add(newComment);
-
-			dispatch(addNewComment(doc.id, newComment));
+			try {
+				const doc = await db.collection(``).add(newComment);
+				dispatch(addNewComment(doc.id, newComment));
+				messageSweetAlert("success", "Comment added, thanks! :)");
+			} catch (error) {
+				messageSweetAlert("error", "Something went wrong... :(");
+			}
 		}
 	};
 };
 
 export const startLoadComments = () => {
 	return (dispatch) => {
-		db.collection("guestbook").onSnapshot((querySnapshot) => {
-			const comments = [];
-			querySnapshot.forEach((doc) => {
-				comments.push({
-					id: doc.id,
-					...doc.data(),
-				});
+		try {
+			db.collection("guestbook").onSnapshot((querySnapshot) => {
+				const comments = [];
+				querySnapshot.forEach((doc) => {
+					comments.push({
+						id: doc.id,
+						...doc.data(),
+					});
 
-				dispatch(loadComments(comments));
+					dispatch(loadComments(comments));
+					messageSweetAlert("success", "Loaded comments");
+				});
 			});
-		});
+		} catch (error) {
+			messageSweetAlert("error", "Something went wrong... :(");
+		}
 	};
 };
 
