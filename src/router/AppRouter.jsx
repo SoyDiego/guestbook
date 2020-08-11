@@ -12,6 +12,7 @@ import { Main } from "../components/main/Main";
 import { Navigation } from "../components/ui/Navigation/Navigation";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../actions/auth";
+import { Loading } from "../components/ui/loading/Loading";
 
 export const AppRouter = () => {
 	const [checking, setChecking] = useState(true);
@@ -29,7 +30,7 @@ export const AppRouter = () => {
 	}, [dispatch]);
 
 	if (checking) {
-		return <h1>Loading...</h1>;
+		return <Loading />;
 	}
 
 	return (

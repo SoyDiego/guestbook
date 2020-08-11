@@ -5,4 +5,7 @@ export const types = {
 	commentsAddNew: "[Comments] New note",
 	commentsLoad: "[Comments] Load comments",
 	commentsCleanLogout: "[Comments] Clean Logout",
+
+	uiShowLoading: "[UI] Show Loading",
+	uiHideLoading: "[UI] Hide Loading",
 };

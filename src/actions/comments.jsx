@@ -2,6 +2,7 @@ import { db } from "../firebase/config";
 import { types } from "../types/types";
 import Swal from "sweetalert2";
 import { messageSweetAlert } from "../helpers/helpers";
+import { startLoading, finishLoading } from "./ui";
 
 export const startNewComment = () => {
 	return async (dispatch, getState) => {
@@ -27,7 +28,7 @@ export const startNewComment = () => {
 			};
 
 			try {
-				const doc = await db.collection(``).add(newComment);
+				const doc = await db.collection(`guestbook`).add(newComment);
 				dispatch(addNewComment(doc.id, newComment));
 				messageSweetAlert("success", "Comment added, thanks! :)");
 			} catch (error) {
@@ -39,6 +40,7 @@ export const startNewComment = () => {
 
 export const startLoadComments = () => {
 	return (dispatch) => {
+		dispatch(startLoading());
 		try {
 			db.collection("guestbook").onSnapshot((querySnapshot) => {
 				const comments = [];
@@ -47,10 +49,10 @@ export const startLoadComments = () => {
 						id: doc.id,
 						...doc.data(),
 					});
-
-					dispatch(loadComments(comments));
-					messageSweetAlert("success", "Loaded comments");
 				});
+				dispatch(loadComments(comments));
+				dispatch(finishLoading());
+				messageSweetAlert("success", "Loaded comments");
 			});
 		} catch (error) {
 			messageSweetAlert("error", "Something went wrong... :(");

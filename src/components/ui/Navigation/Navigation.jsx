@@ -2,7 +2,6 @@ import React from "react";
 import { Nav, NavItem, WelcomeMessage, Button } from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../../actions/auth";
-import Swal from "sweetalert2";
 import { startNewComment } from "../../../actions/comments";
 
 export const Navigation = () => {
