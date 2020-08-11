@@ -6,9 +6,7 @@ import { startNewComment } from "../../../actions/comments";
 
 export const Navigation = () => {
 	const dispatch = useDispatch();
-	const {
-		auth: { username },
-	} = useSelector((state) => state?.auth);
+	const { username } = useSelector((state) => state?.auth);
 
 	const handleLogout = () => {
 		dispatch(logoutUser());

@@ -9,7 +9,6 @@ export const Main = () => {
 	const dispatch = useDispatch();
 	const { comments } = useSelector((state) => state.comments);
 	const { loading } = useSelector((state) => state.ui);
-	console.log(loading);
 
 	useEffect(() => {
 		dispatch(startLoadComments());

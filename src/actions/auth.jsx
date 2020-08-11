@@ -70,16 +70,10 @@ export const loginUser = (uid, username) => ({
 });
 
 export const startLogout = () => {
-	return (dispatch) => {
-		firebase
-			.auth()
-			.signOut()
-			.then(() => {
-				dispatch(logoutUser());
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+	return async (dispatch) => {
+		await firebase.auth().signOut();
+
+		dispatch(logoutUser());
 	};
 };
 
