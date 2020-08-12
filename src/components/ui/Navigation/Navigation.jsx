@@ -1,7 +1,7 @@
 import React from "react";
 import { Nav, NavItem, WelcomeMessage, Button } from "./styles";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../../../actions/auth";
+import { startLogout } from "../../../actions/auth";
 import { startNewComment } from "../../../actions/comments";
 
 export const Navigation = () => {
@@ -9,7 +9,7 @@ export const Navigation = () => {
 	const { username } = useSelector((state) => state?.auth);
 
 	const handleLogout = () => {
-		dispatch(logoutUser());
+		dispatch(startLogout());
 	};
 
 	const handleNewComment = () => {
@@ -28,7 +28,7 @@ export const Navigation = () => {
 				)}
 
 				<li>
-					<NavItem activeClassName="selected" to="/main">
+					<NavItem exact activeClassName="selected" to="/">
 						Main
 					</NavItem>
 				</li>
