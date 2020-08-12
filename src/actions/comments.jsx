@@ -16,9 +16,7 @@ export const startNewComment = () => {
 		});
 
 		if (comment) {
-			const {
-				auth: { uid, username },
-			} = getState().auth;
+			const { uid, username } = getState().auth;
 
 			const newComment = {
 				userId: uid,
