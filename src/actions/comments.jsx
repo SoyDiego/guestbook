@@ -37,20 +37,47 @@ export const startNewComment = () => {
 };
 
 export const startLoadComments = () => {
-	return (dispatch) => {
+	return async (dispatch) => {
 		dispatch(startLoading());
 		try {
-			db.collection("guestbook").onSnapshot((querySnapshot) => {
-				const comments = [];
-				querySnapshot.forEach((doc) => {
-					comments.push({
-						id: doc.id,
-						...doc.data(),
-					});
+			const commentsInDB = await db.collection("guestbook").get();
+			const comments = [];
+			commentsInDB.forEach((doc) => {
+				comments.push({
+					id: doc.id,
+					...doc.data(),
 				});
-				dispatch(loadComments(comments));
-				dispatch(finishLoading());
-				messageSweetAlert("success", "Loaded comments");
+			});
+			dispatch(loadComments(comments));
+			dispatch(finishLoading());
+		} catch (error) {
+			messageSweetAlert("error", "Something went wrong... :(");
+		}
+	};
+};
+
+export const startDeleteComment = (id) => {
+	return (dispatch) => {
+		try {
+			Swal.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, delete it!",
+			}).then((result) => {
+				if (result.value) {
+					db.collection("guestbook").doc(id).delete();
+					dispatch(deleteComment(id));
+
+					Swal.fire(
+						"Deleted!",
+						"Your comment has been deleted.",
+						"success"
+					);
+				}
 			});
 		} catch (error) {
 			messageSweetAlert("error", "Something went wrong... :(");
@@ -66,4 +93,9 @@ export const loadComments = (comments) => ({
 export const addNewComment = (id, comment) => ({
 	type: types.commentsAddNew,
 	payload: { id, ...comment },
+});
+
+export const deleteComment = (id) => ({
+	type: types.commentsDelete,
+	payload: id,
 });

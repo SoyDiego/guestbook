@@ -36,7 +36,7 @@ export const Navigation = () => {
 					{username ? (
 						<NavItem
 							activeClassName="selected"
-							to="/auth/logout"
+							to="/auth/login"
 							onClick={handleLogout}>
 							Logout
 						</NavItem>

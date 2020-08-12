@@ -4,7 +4,6 @@ import { CommentCard } from "../ui/commentCard/CommentCard";
 import { startLoadComments } from "../../actions/comments";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../ui/loading/Loading";
-import { Navigation } from "../ui/Navigation/Navigation";
 
 export const Main = () => {
 	const dispatch = useDispatch();
@@ -17,7 +16,6 @@ export const Main = () => {
 
 	return (
 		<ContainerMain>
-			{/* <Navigation /> */}
 			<h1>All our visitors :)</h1>
 			{loading ? (
 				<Loading />

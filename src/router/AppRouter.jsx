@@ -12,7 +12,7 @@ import { AuthRouter } from "./AuthRouter";
 
 export const AppRouter = () => {
 	const [checking, setChecking] = useState(true);
-	const [isLoggedIn, setisLoggedIn] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const dispatch = useDispatch();
 
 	//Mantiene el usuario autenticado
@@ -20,9 +20,9 @@ export const AppRouter = () => {
 		firebase.auth().onAuthStateChanged(async (user) => {
 			if (user?.uid) {
 				dispatch(loginUser(user.uid, user.displayName));
-				setisLoggedIn(true);
+				setIsLoggedIn(true);
 			} else {
-				setisLoggedIn(false);
+				setIsLoggedIn(false);
 			}
 
 			setChecking(false);
