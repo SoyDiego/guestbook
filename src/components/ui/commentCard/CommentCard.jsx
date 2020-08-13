@@ -7,11 +7,12 @@ import {
 	DeleteButton,
 	ContainerDeleteButton,
 } from "./styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { startDeleteComment } from "../../../actions/comments";
 
 export const CommentCard = (comment) => {
 	const dispatch = useDispatch();
+	const userLogged = useSelector((state) => state.auth.username);
 	const { id, body, username, date } = comment;
 
 	const handleDelete = (id) => {
@@ -19,9 +20,21 @@ export const CommentCard = (comment) => {
 	};
 	return (
 		<Card>
-			<ContainerDeleteButton>
-				<DeleteButton onClick={() => handleDelete(id)}>X</DeleteButton>
-			</ContainerDeleteButton>
+			{userLogged === username ? (
+				<ContainerDeleteButton>
+					<DeleteButton onClick={() => handleDelete(id)}>
+						X
+					</DeleteButton>
+				</ContainerDeleteButton>
+			) : (
+				<ContainerDeleteButton>
+					<DeleteButton
+						style={{ visibility: "hidden" }}
+						onClick={() => handleDelete(id)}>
+						X
+					</DeleteButton>
+				</ContainerDeleteButton>
+			)}
 			<p>{body}</p>
 			<ContainerAuthorDate>
 				<p>

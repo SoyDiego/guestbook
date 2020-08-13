@@ -2,14 +2,17 @@ import styled from "@emotion/styled";
 
 export const Card = styled.div`
 	width: 300px;
-	margin: 0.5rem;
-	text-align: center;
+	margin: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	border: 1px solid black;
 `;
 
 export const ContainerDeleteButton = styled.div`
-	width: 100%;
+	height: 100%;
 	display: flex;
+	align-self: flex-end;
 	justify-content: flex-end;
 `;
 
@@ -27,12 +30,14 @@ export const DeleteButton = styled.button`
 `;
 
 export const ContainerAuthorDate = styled.div`
+	height: 100%;
 	width: 100%;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: center;
 
 	p {
 		font-size: 12px;
+		align-self: end;
 	}
 `;
 
