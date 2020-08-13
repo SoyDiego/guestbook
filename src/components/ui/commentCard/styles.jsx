@@ -44,3 +44,8 @@ export const ContainerAuthorDate = styled.div`
 export const Author = styled.span`
 	font-weight: bold;
 `;
+
+export const ContainerLikes = styled.div`
+	margin: 1rem;
+	cursor: pointer;
+`;

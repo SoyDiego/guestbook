@@ -24,6 +24,15 @@ export const commentsReducer = (state = initialState, action) => {
 					(comment) => comment.id !== action.payload
 				),
 			};
+		case types.commentsVote:
+			return {
+				...state,
+				comments: state.comments.map((comment) =>
+					comment.id === action.payload.id
+						? { ...comment, votes: action.payload.vote }
+						: comment
+				),
+			};
 
 		default:
 			return state;

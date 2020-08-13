@@ -23,6 +23,7 @@ export const startNewComment = () => {
 				username: username,
 				body: comment,
 				date: new Date().getTime(),
+				votes: 0,
 			};
 
 			try {
@@ -85,6 +86,22 @@ export const startDeleteComment = (id) => {
 	};
 };
 
+export const startVoteComment = (idComment, countVotes) => {
+	return async (dispatch) => {
+		try {
+			await db
+				.collection("guestbook")
+				.doc(idComment)
+				.update({
+					votes: countVotes + 1,
+				});
+			dispatch(voteComment(idComment, countVotes));
+		} catch (error) {
+			console.log(error);
+		}
+	};
+};
+
 export const loadComments = (comments) => ({
 	type: types.commentsLoad,
 	payload: comments,
@@ -98,4 +115,12 @@ export const addNewComment = (id, comment) => ({
 export const deleteComment = (id) => ({
 	type: types.commentsDelete,
 	payload: id,
+});
+
+export const voteComment = (id, vote) => ({
+	type: types.commentsVote,
+	payload: {
+		id,
+		vote: vote + 1,
+	},
 });
