@@ -3,8 +3,8 @@ import { types } from "../types/types";
 import Swal from "sweetalert2";
 
 export const registerNewUser = (email, password, username) => {
-	return (dispatch) => {
-		firebase
+	return async (dispatch) => {
+		await firebase
 			.auth()
 			.createUserWithEmailAndPassword(email, password)
 			.then(async ({ user }) => {
@@ -24,15 +24,15 @@ export const registerNewUser = (email, password, username) => {
 				Swal.fire({
 					icon: "error",
 					title: "Oops",
-					text: `${error}`,
+					text: `${error.message}`,
 				});
 			});
 	};
 };
 
 export const startLogin = (email, password) => {
-	return (dispatch) => {
-		firebase
+	return async (dispatch) => {
+		await firebase
 			.auth()
 			.signInWithEmailAndPassword(email, password)
 			.then(({ user }) => {
@@ -56,7 +56,11 @@ export const startLogin = (email, password) => {
 				dispatch(loginUser(user.uid, user.displayName));
 			})
 			.catch((error) => {
-				console.log(error);
+				Swal.fire({
+					icon: "error",
+					title: "Oops",
+					text: `${error.message}`,
+				});
 			});
 	};
 };

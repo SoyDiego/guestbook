@@ -67,9 +67,9 @@ export const startDeleteComment = (id) => {
 				confirmButtonColor: "#3085d6",
 				cancelButtonColor: "#d33",
 				confirmButtonText: "Yes, delete it!",
-			}).then((result) => {
+			}).then(async (result) => {
 				if (result.value) {
-					db.collection("guestbook").doc(id).delete();
+					await db.collection("guestbook").doc(id).delete();
 					dispatch(deleteComment(id));
 
 					Swal.fire(
