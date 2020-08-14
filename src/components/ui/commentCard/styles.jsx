@@ -7,6 +7,11 @@ export const Card = styled.div`
 	flex-direction: column;
 	align-items: center;
 	border: 1px solid black;
+
+	p {
+		padding: 0 2rem;
+		text-align: center;
+	}
 `;
 
 export const ContainerDeleteButton = styled.div`
