@@ -23,7 +23,7 @@ export const Login = () => {
 			<h1>Login</h1>
 
 			<Input
-				type="text"
+				type="email"
 				placeholder="Your email"
 				name="email"
 				value={email}

@@ -37,7 +37,7 @@ export const Register = () => {
 				onChange={handleInputChange}
 			/>
 			<Input
-				type="text"
+				type="email"
 				placeholder="Your email"
 				name="email"
 				value={email}
