@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import {
 	Card,
@@ -18,7 +18,6 @@ import { faTrashAlt, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export const CommentCard = (comment) => {
 	const [isChecked, setIsChecked] = useState();
-	const checkbox = useRef();
 	const dispatch = useDispatch();
 	const userLogged = useSelector((state) => state.auth.username);
 	const uid = useSelector((state) => state.auth.uid);
@@ -29,18 +28,6 @@ export const CommentCard = (comment) => {
 	};
 
 	const handleVote = (idComment) => {
-		// if (checkbox.current.checked) {
-		// 	setCountVotes(countVotes + 1);
-		// 	dispatch(startVoteComment(id, countVotes + 1));
-		// 	setIsChecked(!isChecked);
-		// 	checkbox.current.checked = !checkbox.current.checked;
-		// } else {
-		// 	setCountVotes(countVotes - 1);
-		// 	dispatch(startVoteComment(id, countVotes - 1));
-		// 	setIsChecked(!isChecked);
-		// 	checkbox.current.checked = !checkbox.current.checked;
-		// }
-
 		if (usersWhoVoted.includes(uid)) {
 			console.log(usersWhoVoted.includes(uid));
 			setIsChecked(!isChecked);
