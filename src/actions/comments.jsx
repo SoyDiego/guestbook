@@ -23,7 +23,7 @@ export const startNewComment = () => {
 				username: username,
 				body: comment,
 				date: new Date().getTime(),
-				votes: 0,
+				usersWhoVoted: [],
 			};
 
 			try {
@@ -86,16 +86,17 @@ export const startDeleteComment = (id) => {
 	};
 };
 
-export const startVoteComment = (idComment, countVotes) => {
+export const startVoteComment = (idComment, usersWhoVoted, action) => {
 	return async (dispatch) => {
 		try {
-			await db
-				.collection("guestbook")
-				.doc(idComment)
-				.update({
-					votes: countVotes + 1,
-				});
-			dispatch(voteComment(idComment, countVotes));
+			await db.collection("guestbook").doc(idComment).update({
+				usersWhoVoted: usersWhoVoted,
+			});
+			if (action === "add") {
+				dispatch(addVoteComment(idComment, usersWhoVoted));
+			} else {
+				dispatch(removeVoteComment(idComment, usersWhoVoted));
+			}
 		} catch (error) {
 			console.log(error);
 		}
@@ -117,10 +118,18 @@ export const deleteComment = (id) => ({
 	payload: id,
 });
 
-export const voteComment = (id, vote) => ({
-	type: types.commentsVote,
+export const addVoteComment = (id, usersWhoVoted) => ({
+	type: types.commentsVoteAdd,
 	payload: {
 		id,
-		vote: vote + 1,
+		usersWhoVoted,
+	},
+});
+
+export const removeVoteComment = (id, usersWhoVoted) => ({
+	type: types.commentsVoteRemove,
+	payload: {
+		id,
+		usersWhoVoted,
 	},
 });

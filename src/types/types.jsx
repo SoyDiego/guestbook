@@ -6,7 +6,8 @@ export const types = {
 	commentsLoad: "[Comments] Load comments",
 	commentsCleanLogout: "[Comments] Clean Logout",
 	commentsDelete: "[Comments] Delete comment",
-	commentsVote: "[Comments] Add Vote",
+	commentsVoteAdd: "[Comments] Add Vote",
+	commentsVoteRemove: "[Comments] Remove Vote",
 
 	uiShowLoading: "[UI] Show Loading",
 	uiHideLoading: "[UI] Hide Loading",

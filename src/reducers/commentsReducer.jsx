@@ -24,12 +24,16 @@ export const commentsReducer = (state = initialState, action) => {
 					(comment) => comment.id !== action.payload
 				),
 			};
-		case types.commentsVote:
+		case types.commentsVoteAdd:
+		case types.commentsVoteRemove:
 			return {
 				...state,
 				comments: state.comments.map((comment) =>
 					comment.id === action.payload.id
-						? { ...comment, votes: action.payload.vote }
+						? {
+								...comment,
+								usersWhoVoted: action.payload.usersWhoVoted,
+						  }
 						: comment
 				),
 			};

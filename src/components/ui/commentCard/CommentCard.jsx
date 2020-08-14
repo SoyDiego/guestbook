@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import moment from "moment";
 import {
 	Card,
@@ -17,18 +17,43 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export const CommentCard = (comment) => {
+	const [isChecked, setIsChecked] = useState();
+	const checkbox = useRef();
 	const dispatch = useDispatch();
 	const userLogged = useSelector((state) => state.auth.username);
-	const { id, body, username, date, votes } = comment;
-	const [countVotes, setCountVotes] = useState(votes);
+	const uid = useSelector((state) => state.auth.uid);
+	const { id, body, username, date, usersWhoVoted } = comment;
 
 	const handleDelete = (id) => {
 		dispatch(startDeleteComment(id));
 	};
 
-	const handleVote = (id, countVotes) => {
-		setCountVotes(countVotes + 1);
-		dispatch(startVoteComment(id, countVotes));
+	const handleVote = (idComment) => {
+		// if (checkbox.current.checked) {
+		// 	setCountVotes(countVotes + 1);
+		// 	dispatch(startVoteComment(id, countVotes + 1));
+		// 	setIsChecked(!isChecked);
+		// 	checkbox.current.checked = !checkbox.current.checked;
+		// } else {
+		// 	setCountVotes(countVotes - 1);
+		// 	dispatch(startVoteComment(id, countVotes - 1));
+		// 	setIsChecked(!isChecked);
+		// 	checkbox.current.checked = !checkbox.current.checked;
+		// }
+
+		if (usersWhoVoted.includes(uid)) {
+			console.log(usersWhoVoted.includes(uid));
+			setIsChecked(!isChecked);
+			const removeUid = usersWhoVoted.filter((id) => id !== uid);
+			console.log(removeUid);
+			dispatch(startVoteComment(idComment, removeUid, "remove"));
+		} else {
+			console.log(usersWhoVoted);
+			setIsChecked(!isChecked);
+			usersWhoVoted.push(uid);
+			console.log(usersWhoVoted);
+			dispatch(startVoteComment(idComment, usersWhoVoted, "add"));
+		}
 	};
 
 	return (
@@ -43,9 +68,7 @@ export const CommentCard = (comment) => {
 				<ContainerDeleteButton>
 					<DeleteButton
 						style={{ visibility: "hidden" }}
-						onClick={() => handleDelete(id)}>
-						X
-					</DeleteButton>
+						onClick={() => handleDelete(id)}></DeleteButton>
 				</ContainerDeleteButton>
 			)}
 			<p>{body}</p>
@@ -54,11 +77,11 @@ export const CommentCard = (comment) => {
 					<Author>{username}</Author> - {moment(date).fromNow()}...
 				</p>
 			</ContainerAuthorDate>
-			<ContainerLikes>
-				<span>{countVotes}</span>&nbsp;
+			<ContainerLikes onClick={() => handleVote(id)}>
+				<span>{usersWhoVoted.length}</span>&nbsp;
 				<FontAwesomeIcon
+					color={usersWhoVoted.includes(uid) ? "#ff6961" : "grey"}
 					icon={faHeart}
-					onClick={() => handleVote(id, countVotes)}
 				/>
 			</ContainerLikes>
 		</Card>
