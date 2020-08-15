@@ -19,19 +19,19 @@ export const Navigation = () => {
 	return (
 		<Nav>
 			<ul>
-				{!username && (
+				{!username ? (
 					<li>
 						<NavItem activeClassName="selected" to="/auth/register">
 							Register
 						</NavItem>
 					</li>
+				) : (
+					<li>
+						<NavItem exact activeClassName="selected" to="/">
+							Main
+						</NavItem>
+					</li>
 				)}
-
-				<li>
-					<NavItem exact activeClassName="selected" to="/">
-						Main
-					</NavItem>
-				</li>
 				<li>
 					{username ? (
 						<NavItem

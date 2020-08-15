@@ -14,8 +14,9 @@ A simple guestbook, that's it :).
 -   Protected routes.
 -   Add comments.
 -   Delete comments (only the comment creator can delete your own comment).
+-   Update in Real Time.
 -   Like / Dislike comments.
--   Count likes.
+-   Total likes in comments.
 
 ## DEMO
 

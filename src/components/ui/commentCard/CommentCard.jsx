@@ -29,27 +29,23 @@ export const CommentCard = (comment) => {
 
 	const handleVote = (idComment) => {
 		if (usersWhoVoted.includes(uid)) {
-			console.log(usersWhoVoted.includes(uid));
 			setIsChecked(!isChecked);
 			const removeUid = usersWhoVoted.filter((id) => id !== uid);
-			console.log(removeUid);
 			dispatch(startVoteComment(idComment, removeUid, "remove"));
 		} else {
-			console.log(usersWhoVoted);
 			setIsChecked(!isChecked);
 			usersWhoVoted.push(uid);
-			console.log(usersWhoVoted);
 			dispatch(startVoteComment(idComment, usersWhoVoted, "add"));
 		}
 	};
+
+	const handleEdit = (idComment) => {};
 
 	return (
 		<Card>
 			{userLogged === username && (
 				<ContainerActionButton>
-					<ActionButton
-						action="edit"
-						onClick={() => handleDelete(id)}>
+					<ActionButton action="edit" onClick={() => handleEdit(id)}>
 						<FontAwesomeIcon icon={faEdit} />
 					</ActionButton>
 					<ActionButton
