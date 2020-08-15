@@ -9,7 +9,6 @@ export const commentsReducer = (state = initialState, action) => {
 		case types.commentsAddNew:
 			return {
 				...state,
-				comments: [action.payload, ...state.comments],
 			};
 		case types.commentsLoad:
 			return {

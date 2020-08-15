@@ -4,9 +4,9 @@ import {
 	Card,
 	Author,
 	ContainerAuthorDate,
-	DeleteButton,
-	ContainerDeleteButton,
+	ActionButton,
 	ContainerLikes,
+	ContainerActionButton,
 } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,7 +14,7 @@ import {
 	startVoteComment,
 } from "../../../actions/comments";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrashAlt, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export const CommentCard = (comment) => {
 	const [isChecked, setIsChecked] = useState();
@@ -45,20 +45,21 @@ export const CommentCard = (comment) => {
 
 	return (
 		<Card>
-			{userLogged === username ? (
-				<ContainerDeleteButton>
-					<DeleteButton onClick={() => handleDelete(id)}>
+			{userLogged === username && (
+				<ContainerActionButton>
+					<ActionButton
+						action="edit"
+						onClick={() => handleDelete(id)}>
+						<FontAwesomeIcon icon={faEdit} />
+					</ActionButton>
+					<ActionButton
+						action="delete"
+						onClick={() => handleDelete(id)}>
 						<FontAwesomeIcon icon={faTrashAlt} />
-					</DeleteButton>
-				</ContainerDeleteButton>
-			) : (
-				<ContainerDeleteButton>
-					<DeleteButton
-						style={{ visibility: "hidden" }}
-						onClick={() => handleDelete(id)}></DeleteButton>
-				</ContainerDeleteButton>
+					</ActionButton>
+				</ContainerActionButton>
 			)}
-			<p>{body}</p>
+			<p className="comment">{body}</p>
 			<ContainerAuthorDate>
 				<p>
 					<Author>{username}</Author> - {moment(date).fromNow()}...
@@ -69,6 +70,7 @@ export const CommentCard = (comment) => {
 				<FontAwesomeIcon
 					color={usersWhoVoted.includes(uid) ? "#ff6961" : "grey"}
 					icon={faHeart}
+					title="Like"
 				/>
 			</ContainerLikes>
 		</Card>

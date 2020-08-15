@@ -41,16 +41,19 @@ export const startLoadComments = () => {
 	return async (dispatch) => {
 		dispatch(startLoading());
 		try {
-			const commentsInDB = await db.collection("guestbook").get();
-			const comments = [];
-			commentsInDB.forEach((doc) => {
-				comments.push({
-					id: doc.id,
-					...doc.data(),
+			await db
+				.collection("guestbook")
+				.orderBy("date", "desc")
+				.onSnapshot((docSnap) => {
+					const comments = docSnap.docs.map((doc) => {
+						return {
+							id: doc.id,
+							...doc.data(),
+						};
+					});
+					dispatch(loadComments(comments));
+					dispatch(finishLoading());
 				});
-			});
-			dispatch(loadComments(comments));
-			dispatch(finishLoading());
 		} catch (error) {
 			messageSweetAlert("error", "Something went wrong... :(");
 		}
