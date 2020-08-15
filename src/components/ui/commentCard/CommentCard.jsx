@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
 	startDeleteComment,
 	startVoteComment,
+	startNewCommentOrEdit,
 } from "../../../actions/comments";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt, faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -39,13 +40,17 @@ export const CommentCard = (comment) => {
 		}
 	};
 
-	const handleEdit = (idComment) => {};
+	const handleEdit = (idComment, body) => {
+		dispatch(startNewCommentOrEdit("edit", idComment, body));
+	};
 
 	return (
 		<Card>
 			{userLogged === username && (
 				<ContainerActionButton>
-					<ActionButton action="edit" onClick={() => handleEdit(id)}>
+					<ActionButton
+						action="edit"
+						onClick={() => handleEdit(id, body)}>
 						<FontAwesomeIcon icon={faEdit} />
 					</ActionButton>
 					<ActionButton

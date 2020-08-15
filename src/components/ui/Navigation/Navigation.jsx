@@ -2,7 +2,7 @@ import React from "react";
 import { Nav, NavItem, WelcomeMessage, Button } from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { startLogout } from "../../../actions/auth";
-import { startNewComment } from "../../../actions/comments";
+import { startNewCommentOrEdit } from "../../../actions/comments";
 
 export const Navigation = () => {
 	const dispatch = useDispatch();
@@ -13,7 +13,7 @@ export const Navigation = () => {
 	};
 
 	const handleNewComment = () => {
-		dispatch(startNewComment());
+		dispatch(startNewCommentOrEdit("add"));
 	};
 
 	return (

@@ -4,10 +4,11 @@ import Swal from "sweetalert2";
 import { messageSweetAlert } from "../helpers/helpers";
 import { startLoading, finishLoading } from "./ui";
 
-export const startNewComment = () => {
+export const startNewCommentOrEdit = (action, id, body) => {
 	return async (dispatch, getState) => {
 		const { value: comment } = await Swal.fire({
 			input: "textarea",
+			inputValue: action === "add" ? null : body,
 			inputPlaceholder: "Type your comment",
 			inputAttributes: {
 				"aria-label": "Type your comment here",
@@ -18,20 +19,40 @@ export const startNewComment = () => {
 		if (comment) {
 			const { uid, username } = getState().auth;
 
-			const newComment = {
-				userId: uid,
-				username: username,
-				body: comment,
-				date: new Date().getTime(),
-				usersWhoVoted: [],
-			};
+			if (action === "add") {
+				const newComment = {
+					userId: uid,
+					username: username,
+					body: comment,
+					date: new Date().getTime(),
+					usersWhoVoted: [],
+				};
 
-			try {
-				const doc = await db.collection(`guestbook`).add(newComment);
-				dispatch(addNewComment(doc.id, newComment));
-				messageSweetAlert("success", "Comment added, thanks! :)");
-			} catch (error) {
-				messageSweetAlert("error", "Something went wrong... :(");
+				try {
+					const doc = await db
+						.collection(`guestbook`)
+						.add(newComment);
+					dispatch(addNewComment(doc.id, newComment));
+					messageSweetAlert("success", "Comment added, thanks! :)");
+				} catch (error) {
+					messageSweetAlert(
+						"error",
+						`Something went wrong... :( || Error: ${error}`
+					);
+				}
+			} else {
+				try {
+					await db.collection(`guestbook`).doc(id).update({
+						body: comment,
+					});
+					dispatch(editComment());
+					messageSweetAlert("success", "Comment edited.");
+				} catch (error) {
+					messageSweetAlert(
+						"error",
+						`Something went wrong... :( || Error: ${error}`
+					);
+				}
 			}
 		}
 	};
@@ -55,12 +76,15 @@ export const startLoadComments = () => {
 					dispatch(finishLoading());
 				});
 		} catch (error) {
-			messageSweetAlert("error", "Something went wrong... :(");
+			messageSweetAlert(
+				"error",
+				`Something went wrong... :( || Error: ${error}`
+			);
 		}
 	};
 };
 
-export const startDeleteComment = (id) => {
+export const startDeleteComment = (idComment) => {
 	return (dispatch) => {
 		try {
 			Swal.fire({
@@ -73,8 +97,8 @@ export const startDeleteComment = (id) => {
 				confirmButtonText: "Yes, delete it!",
 			}).then(async (result) => {
 				if (result.value) {
-					await db.collection("guestbook").doc(id).delete();
-					dispatch(deleteComment(id));
+					await db.collection("guestbook").doc(idComment).delete();
+					dispatch(deleteComment(idComment));
 
 					Swal.fire(
 						"Deleted!",
@@ -84,7 +108,10 @@ export const startDeleteComment = (id) => {
 				}
 			});
 		} catch (error) {
-			messageSweetAlert("error", "Something went wrong... :(");
+			messageSweetAlert(
+				"error",
+				`Something went wrong... :( || Error: ${error}`
+			);
 		}
 	};
 };
@@ -101,7 +128,10 @@ export const startVoteComment = (idComment, usersWhoVoted, action) => {
 				dispatch(removeVoteComment(idComment, usersWhoVoted));
 			}
 		} catch (error) {
-			console.log(error);
+			messageSweetAlert(
+				"error",
+				`Something went wrong... :( || Error: ${error}`
+			);
 		}
 	};
 };
@@ -114,6 +144,10 @@ export const loadComments = (comments) => ({
 export const addNewComment = (id, comment) => ({
 	type: types.commentsAddNew,
 	payload: { id, ...comment },
+});
+
+export const editComment = () => ({
+	type: types.commentsEdit,
 });
 
 export const deleteComment = (id) => ({

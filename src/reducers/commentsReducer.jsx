@@ -7,9 +7,11 @@ const initialState = {
 export const commentsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case types.commentsAddNew:
+		case types.commentsEdit:
 			return {
 				...state,
 			};
+
 		case types.commentsLoad:
 			return {
 				...state,
