@@ -7,14 +7,13 @@ import {
 	ActionButton,
 	ContainerLikesAndComments,
 	ContainerActionButton,
-} from "./styles";
+} from "../ui/commentCard/styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	startDeleteComment,
 	startVoteComment,
 	startNewCommentOrEdit,
-	commentActive,
-} from "../../../actions/comments";
+} from "../../actions/comments";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faEdit,
@@ -24,13 +23,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
 
-export const CommentCard = (comment) => {
-	const history = useHistory();
+export const Opinions = () => {
 	const [isChecked, setIsChecked] = useState();
 	const dispatch = useDispatch();
 	const userLogged = useSelector((state) => state.auth.username);
 	const uid = useSelector((state) => state.auth.uid);
-	const { id, body, username, date, usersWhoVoted, opinions } = comment;
+	const { id, body, username, date, usersWhoVoted, opinions } = useSelector(
+		(state) => state.comments.active
+	);
 
 	const handleEdit = (idComment, body) => {
 		dispatch(startNewCommentOrEdit("edit", idComment, body));
@@ -52,13 +52,8 @@ export const CommentCard = (comment) => {
 		}
 	};
 
-	const handleComment = (idComment) => {
-		dispatch(commentActive(comment));
-		history.push(`/comment/${idComment}`);
-	};
-
 	return (
-		<Card width="300px">
+		<Card width="80%">
 			{userLogged === username && (
 				<ContainerActionButton>
 					<ActionButton
@@ -88,7 +83,7 @@ export const CommentCard = (comment) => {
 						title="Like"
 					/>
 				</div>
-				<div onClick={() => handleComment(id)}>
+				<div>
 					<span>{opinions.length}</span>&nbsp;
 					<FontAwesomeIcon
 						color="grey"

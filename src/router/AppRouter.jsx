@@ -9,6 +9,7 @@ import { Loading } from "../components/ui/loading/Loading";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import { AuthRouter } from "./AuthRouter";
+import { Opinions } from "../components/opinions/Opinions";
 
 export const AppRouter = () => {
 	const [checking, setChecking] = useState(true);
@@ -49,6 +50,13 @@ export const AppRouter = () => {
 						path="/"
 						isAuthenticated={isLoggedIn}
 						component={Main}
+					/>
+
+					<PrivateRoute
+						exact
+						path={`/comment/:id`}
+						isAuthenticated={isLoggedIn}
+						component={Opinions}
 					/>
 					<Redirect to="/auth/login" />
 				</Switch>

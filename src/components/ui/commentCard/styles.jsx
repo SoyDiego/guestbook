@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
 export const Card = styled.div`
-	width: 300px;
-	margin: 1rem;
+	width: ${(props) => props.width};
+	margin: ${(props) => (props.width === "300px" ? "1rem 1rem" : "1rem auto")};
 	display: flex;
 	justify-content: center;
 	flex-direction: column;

@@ -25,6 +25,12 @@ export const commentsReducer = (state = [], action) => {
 						: comment
 				),
 			];
+		case types.commentsActive:
+			return {
+				active: action.payload,
+				...state,
+			};
+
 		case types.commentsCleanLogout:
 			return [];
 
