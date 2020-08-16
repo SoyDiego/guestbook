@@ -17,7 +17,7 @@ A simple guestbook, that's it :).
 -   Delete comments (only the comment creator can delete your own comment).
 -   Update in Real Time.
 -   Like / Dislike comments.
--   Total likes in comments.
+-   Total likes comments.
 
 ## DEMO
 

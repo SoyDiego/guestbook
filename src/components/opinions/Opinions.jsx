@@ -22,6 +22,7 @@ import {
 	faComment,
 } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
+import { CommentsContainer } from "./styles";
 
 export const Opinions = () => {
 	const [isChecked, setIsChecked] = useState();
@@ -53,45 +54,53 @@ export const Opinions = () => {
 	};
 
 	return (
-		<Card width="80%">
-			{userLogged === username && (
-				<ContainerActionButton>
-					<ActionButton
-						action="edit"
-						onClick={() => handleEdit(id, body)}>
-						<FontAwesomeIcon icon={faEdit} />
-					</ActionButton>
-					<ActionButton
-						action="delete"
-						onClick={() => handleDelete(id)}>
-						<FontAwesomeIcon icon={faTrashAlt} />
-					</ActionButton>
-				</ContainerActionButton>
-			)}
-			<p className="comment">{body}</p>
-			<ContainerAuthorDate>
-				<p>
-					<Author>{username}</Author> - {moment(date).fromNow()}...
-				</p>
-			</ContainerAuthorDate>
-			<ContainerLikesAndComments>
-				<div onClick={() => handleVote(id)}>
-					<span>{usersWhoVoted.length}</span>&nbsp;
-					<FontAwesomeIcon
-						color={usersWhoVoted.includes(uid) ? "#ff6961" : "grey"}
-						icon={faHeart}
-						title="Like"
-					/>
-				</div>
-				<div>
-					<span>{opinions.length}</span>&nbsp;
-					<FontAwesomeIcon
-						color="grey"
-						icon={faComment}
-						title="Leave a comment!"
-					/>
-				</div>
-			</ContainerLikesAndComments>
-		</Card>
+		<>
+			<Card width="80%" className="animate__animated animate__fadeIn">
+				{userLogged === username && (
+					<ContainerActionButton>
+						<ActionButton
+							action="edit"
+							onClick={() => handleEdit(id, body)}>
+							<FontAwesomeIcon icon={faEdit} />
+						</ActionButton>
+						<ActionButton
+							action="delete"
+							onClick={() => handleDelete(id)}>
+							<FontAwesomeIcon icon={faTrashAlt} />
+						</ActionButton>
+					</ContainerActionButton>
+				)}
+				<p className="comment">{body}</p>
+				<ContainerAuthorDate>
+					<p>
+						<Author>{username}</Author> - {moment(date).fromNow()}
+						...
+					</p>
+				</ContainerAuthorDate>
+				<ContainerLikesAndComments>
+					<div onClick={() => handleVote(id)}>
+						<span>{usersWhoVoted.length}</span>&nbsp;
+						<FontAwesomeIcon
+							color={
+								usersWhoVoted.includes(uid) ? "#ff6961" : "grey"
+							}
+							icon={faHeart}
+							title="Like"
+						/>
+					</div>
+					<div>
+						<span>{opinions.length}</span>&nbsp;
+						<FontAwesomeIcon
+							color="grey"
+							icon={faComment}
+							title="Leave a comment!"
+						/>
+					</div>
+				</ContainerLikesAndComments>
+			</Card>
+			<CommentsContainer>
+				<h1>Comments Here!</h1>
+			</CommentsContainer>
+		</>
 	);
 };

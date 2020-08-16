@@ -58,7 +58,7 @@ export const CommentCard = (comment) => {
 	};
 
 	return (
-		<Card width="300px">
+		<Card width="300px" className="animate__animated animate__fadeIn">
 			{userLogged === username && (
 				<ContainerActionButton>
 					<ActionButton
