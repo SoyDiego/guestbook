@@ -1,35 +1,22 @@
 import { types } from "../types/types";
 
-const initialState = {
-	comments: [],
-};
-
-export const commentsReducer = (state = initialState, action) => {
+export const commentsReducer = (state = [], action) => {
 	switch (action.type) {
 		case types.commentsAddNew:
 		case types.commentsEdit:
-			return {
-				...state,
-			};
+			return [...state];
 
 		case types.commentsLoad:
-			return {
-				...state,
-				comments: [...action.payload],
-			};
+			return [...action.payload];
 
 		case types.commentsDelete:
-			return {
-				...state,
-				comments: state.comments.filter(
-					(comment) => comment.id !== action.payload
-				),
-			};
+			return [
+				...state.filter((comment) => comment.id !== action.payload.id),
+			];
 		case types.commentsVoteAdd:
 		case types.commentsVoteRemove:
-			return {
-				...state,
-				comments: state.comments.map((comment) =>
+			return [
+				...state.map((comment) =>
 					comment.id === action.payload.id
 						? {
 								...comment,
@@ -37,7 +24,9 @@ export const commentsReducer = (state = initialState, action) => {
 						  }
 						: comment
 				),
-			};
+			];
+		case types.commentsCleanLogout:
+			return [];
 
 		default:
 			return state;

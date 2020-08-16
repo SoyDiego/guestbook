@@ -56,7 +56,13 @@ export const Author = styled.span`
 	font-weight: bold;
 `;
 
-export const ContainerLikes = styled.div`
+export const ContainerLikesAndComments = styled.div`
+	width: 100%;
 	margin: 1rem;
-	cursor: pointer;
+	display: flex;
+	justify-content: space-evenly;
+
+	div {
+		cursor: pointer;
+	}
 `;

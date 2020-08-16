@@ -5,7 +5,7 @@ import {
 	Author,
 	ContainerAuthorDate,
 	ActionButton,
-	ContainerLikes,
+	ContainerLikesAndComments,
 	ContainerActionButton,
 } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,14 +15,19 @@ import {
 	startNewCommentOrEdit,
 } from "../../../actions/comments";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt, faHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+	faEdit,
+	faTrashAlt,
+	faHeart,
+	faComment,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const CommentCard = (comment) => {
 	const [isChecked, setIsChecked] = useState();
 	const dispatch = useDispatch();
 	const userLogged = useSelector((state) => state.auth.username);
 	const uid = useSelector((state) => state.auth.uid);
-	const { id, body, username, date, usersWhoVoted } = comment;
+	const { id, body, username, date, usersWhoVoted, opinions } = comment;
 
 	const handleDelete = (id) => {
 		dispatch(startDeleteComment(id));
@@ -66,14 +71,24 @@ export const CommentCard = (comment) => {
 					<Author>{username}</Author> - {moment(date).fromNow()}...
 				</p>
 			</ContainerAuthorDate>
-			<ContainerLikes onClick={() => handleVote(id)}>
-				<span>{usersWhoVoted.length}</span>&nbsp;
-				<FontAwesomeIcon
-					color={usersWhoVoted.includes(uid) ? "#ff6961" : "grey"}
-					icon={faHeart}
-					title="Like"
-				/>
-			</ContainerLikes>
+			<ContainerLikesAndComments>
+				<div onClick={() => handleVote(id)}>
+					<span>{usersWhoVoted.length}</span>&nbsp;
+					<FontAwesomeIcon
+						color={usersWhoVoted.includes(uid) ? "#ff6961" : "grey"}
+						icon={faHeart}
+						title="Like"
+					/>
+				</div>
+				<div>
+					<span>{opinions.length}</span>&nbsp;
+					<FontAwesomeIcon
+						color="grey"
+						icon={faComment}
+						title="Leave a comment!"
+					/>
+				</div>
+			</ContainerLikesAndComments>
 		</Card>
 	);
 };

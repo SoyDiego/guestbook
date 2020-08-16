@@ -7,7 +7,7 @@ import { Loading } from "../ui/loading/Loading";
 
 export const Main = () => {
 	const dispatch = useDispatch();
-	const { comments } = useSelector((state) => state.comments);
+	const { comments } = useSelector((state) => state);
 	const { loading } = useSelector((state) => state.ui);
 
 	useEffect(() => {

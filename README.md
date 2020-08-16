@@ -13,6 +13,7 @@ A simple guestbook, that's it :).
 -   Register / Login users.
 -   Protected routes.
 -   Add comments.
+-   Edit comments (only the comment creator can edit your own comment).
 -   Delete comments (only the comment creator can delete your own comment).
 -   Update in Real Time.
 -   Like / Dislike comments.

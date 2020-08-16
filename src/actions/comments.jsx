@@ -26,6 +26,7 @@ export const startNewCommentOrEdit = (action, id, body) => {
 					body: comment,
 					date: new Date().getTime(),
 					usersWhoVoted: [],
+					opinions: [],
 				};
 
 				try {
@@ -143,7 +144,6 @@ export const loadComments = (comments) => ({
 
 export const addNewComment = (id, comment) => ({
 	type: types.commentsAddNew,
-	payload: { id, ...comment },
 });
 
 export const editComment = () => ({
@@ -169,4 +169,8 @@ export const removeVoteComment = (id, usersWhoVoted) => ({
 		id,
 		usersWhoVoted,
 	},
+});
+
+export const commentsLogout = () => ({
+	type: types.commentsCleanLogout,
 });
