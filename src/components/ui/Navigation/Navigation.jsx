@@ -3,8 +3,10 @@ import { Nav, NavItem, WelcomeMessage, Button } from "./styles";
 import { useSelector, useDispatch } from "react-redux";
 import { startLogout } from "../../../actions/auth";
 import { startNewCommentOrEdit } from "../../../actions/comments";
+import { useLocation } from "react-router-dom";
 
 export const Navigation = () => {
+	const location = useLocation();
 	const dispatch = useDispatch();
 	const { username } = useSelector((state) => state?.auth);
 
@@ -15,9 +17,9 @@ export const Navigation = () => {
 	const handleNewComment = () => {
 		dispatch(startNewCommentOrEdit("add"));
 	};
-
+	console.log(location.pathname);
 	return (
-		<Nav>
+		<Nav className="animate__animated animate__fadeIn">
 			<ul>
 				{!username ? (
 					<li>
@@ -54,11 +56,20 @@ export const Navigation = () => {
 				</WelcomeMessage>
 			</div>
 
-			{username && (
-				<div>
-					<Button onClick={handleNewComment}>New comment :)</Button>
-				</div>
-			)}
+			{username &&
+				(location.pathname === "/" ? (
+					<div>
+						<Button onClick={handleNewComment}>
+							New comment :)
+						</Button>
+					</div>
+				) : (
+					<div>
+						<Button onClick={handleNewComment}>
+							Write your opinion :)
+						</Button>
+					</div>
+				))}
 		</Nav>
 	);
 };

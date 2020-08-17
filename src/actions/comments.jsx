@@ -116,6 +116,10 @@ export const loadComments = (comments) => ({
 	payload: comments,
 });
 
+export const loadCommentAndOpinions = () => ({
+	type: types.commentsAndOpinionsLoad,
+});
+
 export const addNewComment = (id, comment) => ({
 	type: types.commentsAddNew,
 });

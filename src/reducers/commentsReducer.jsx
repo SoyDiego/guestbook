@@ -4,6 +4,7 @@ export const commentsReducer = (state = [], action) => {
 	switch (action.type) {
 		case types.commentsAddNew:
 		case types.commentsEdit:
+		case types.commentsAndOpinionsLoad:
 			return [...state];
 
 		case types.commentsLoad:

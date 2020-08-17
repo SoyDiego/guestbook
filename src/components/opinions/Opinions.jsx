@@ -13,6 +13,7 @@ import {
 	startDeleteComment,
 	startVoteComment,
 	startNewCommentOrEdit,
+	loadCommentAndOpinions,
 } from "../../actions/comments";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,7 +23,7 @@ import {
 	faComment,
 } from "@fortawesome/free-solid-svg-icons";
 import { useParams, useHistory } from "react-router-dom";
-import { CommentsContainer } from "./styles";
+import { OpinionsContainer, Opinion } from "./styles";
 import { db } from "../../firebase/config";
 import { Loading } from "../ui/loading/Loading";
 
@@ -45,10 +46,11 @@ export const Opinions = () => {
 					return;
 				}
 				setComment(data);
+				dispatch(loadCommentAndOpinions());
 			});
 
 		return () => unsuscribe();
-	}, [history, id]);
+	}, [history, id, dispatch]);
 
 	const handleEdit = () => {
 		dispatch(startNewCommentOrEdit("edit", id, comment.body));
@@ -116,9 +118,42 @@ export const Opinions = () => {
 					</div>
 				</ContainerLikesAndComments>
 			</Card>
-			<CommentsContainer>
-				<h1>Comments!</h1>
-			</CommentsContainer>
+			<OpinionsContainer>
+				<h1>Opinions!</h1>
+				<Opinion>
+					<div className="opinionBody">
+						<p>
+							Lorem ipsum dolor sit amet consectetur, adipisicing
+							elit. Harum, maiores?
+						</p>
+					</div>
+					<div className="authorAndDate">
+						<p>Author - Date</p>
+					</div>
+				</Opinion>
+				<Opinion>
+					<div className="opinionBody">
+						<p>
+							Lorem ipsum dolor sit amet consectetur, adipisicing
+							elit. Harum, maiores?
+						</p>
+					</div>
+					<div className="authorAndDate">
+						<p>Author - Date</p>
+					</div>
+				</Opinion>
+				<Opinion>
+					<div className="opinionBody">
+						<p>
+							Lorem ipsum dolor sit amet consectetur, adipisicing
+							elit. Harum, maiores?
+						</p>
+					</div>
+					<div className="authorAndDate">
+						<p>Author - Date</p>
+					</div>
+				</Opinion>
+			</OpinionsContainer>
 		</>
 	);
 };
