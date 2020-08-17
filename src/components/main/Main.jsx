@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { CommentList, ContainerMain } from "./styles";
 import { CommentCard } from "../ui/commentCard/CommentCard";
-import { startLoadComments } from "../../actions/comments";
+import { loadComments } from "../../actions/comments";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../ui/loading/Loading";
+import { db } from "../../firebase/config";
+import { finishLoading, startLoading } from "../../actions/ui";
 
 export const Main = () => {
 	const dispatch = useDispatch();
@@ -11,7 +13,22 @@ export const Main = () => {
 	const { loading } = useSelector((state) => state.ui);
 
 	useEffect(() => {
-		dispatch(startLoadComments());
+		dispatch(startLoading());
+		const unsuscribe = db
+			.collection("guestbook")
+			.orderBy("date", "desc")
+			.onSnapshot((docSnap) => {
+				const comments = docSnap.docs.map((doc) => {
+					return {
+						id: doc.id,
+						...doc.data(),
+					};
+				});
+				dispatch(loadComments(comments));
+				dispatch(finishLoading());
+			});
+
+		return () => unsuscribe();
 	}, [dispatch]);
 
 	return (

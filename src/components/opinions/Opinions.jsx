@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import {
 	Card,
@@ -21,75 +21,93 @@ import {
 	faHeart,
 	faComment,
 } from "@fortawesome/free-solid-svg-icons";
-import { useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { CommentsContainer } from "./styles";
+import { db } from "../../firebase/config";
+import { Loading } from "../ui/loading/Loading";
 
 export const Opinions = () => {
-	const [isChecked, setIsChecked] = useState();
+	const history = useHistory();
+	const [isChecked, setIsChecked] = useState(false);
+	const [comment, setComment] = useState(null);
 	const dispatch = useDispatch();
 	const userLogged = useSelector((state) => state.auth.username);
 	const uid = useSelector((state) => state.auth.uid);
-	const { id, body, username, date, usersWhoVoted, opinions } = useSelector(
-		(state) => state.comments.active
-	);
+	const { id } = useParams();
+	useEffect(() => {
+		const unsuscribe = db
+			.collection("guestbook")
+			.doc(id)
+			.onSnapshot((docSnap) => {
+				const data = docSnap.data();
+				if (!data) {
+					history.push("/");
+					return;
+				}
+				setComment(data);
+			});
 
-	const handleEdit = (idComment, body) => {
-		dispatch(startNewCommentOrEdit("edit", idComment, body));
+		return () => unsuscribe();
+	}, [history, id]);
+
+	const handleEdit = () => {
+		dispatch(startNewCommentOrEdit("edit", id, comment.body));
 	};
 
-	const handleDelete = (id) => {
+	const handleDelete = () => {
 		dispatch(startDeleteComment(id));
 	};
 
-	const handleVote = (idComment) => {
-		if (usersWhoVoted.includes(uid)) {
+	const handleVote = () => {
+		if (comment.usersWhoVoted.includes(uid)) {
 			setIsChecked(!isChecked);
-			const removeUid = usersWhoVoted.filter((id) => id !== uid);
-			dispatch(startVoteComment(idComment, removeUid, "remove"));
+			const removeUid = comment.usersWhoVoted.filter((id) => id !== uid);
+			dispatch(startVoteComment(id, removeUid, "remove"));
 		} else {
 			setIsChecked(!isChecked);
-			usersWhoVoted.push(uid);
-			dispatch(startVoteComment(idComment, usersWhoVoted, "add"));
+			comment.usersWhoVoted.push(uid);
+			dispatch(startVoteComment(id, comment.usersWhoVoted, "add"));
 		}
 	};
+
+	if (!comment) return <Loading />;
 
 	return (
 		<>
 			<Card width="80%" className="animate__animated animate__fadeIn">
-				{userLogged === username && (
+				{userLogged === comment.username && (
 					<ContainerActionButton>
-						<ActionButton
-							action="edit"
-							onClick={() => handleEdit(id, body)}>
+						<ActionButton action="edit" onClick={handleEdit}>
 							<FontAwesomeIcon icon={faEdit} />
 						</ActionButton>
-						<ActionButton
-							action="delete"
-							onClick={() => handleDelete(id)}>
+						<ActionButton action="delete" onClick={handleDelete}>
 							<FontAwesomeIcon icon={faTrashAlt} />
 						</ActionButton>
 					</ContainerActionButton>
 				)}
-				<p className="comment">{body}</p>
+				<p className="comment">{comment.body}</p>
 				<ContainerAuthorDate>
 					<p>
-						<Author>{username}</Author> - {moment(date).fromNow()}
+						<Author>{comment.username}</Author> -&nbsp;
+						{moment(comment.date).fromNow()}
 						...
 					</p>
 				</ContainerAuthorDate>
 				<ContainerLikesAndComments>
-					<div onClick={() => handleVote(id)}>
-						<span>{usersWhoVoted.length}</span>&nbsp;
+					<div onClick={handleVote}>
+						<span>{comment.usersWhoVoted.length}</span>&nbsp;
 						<FontAwesomeIcon
 							color={
-								usersWhoVoted.includes(uid) ? "#ff6961" : "grey"
+								comment.usersWhoVoted.includes(uid)
+									? "#ff6961"
+									: "grey"
 							}
 							icon={faHeart}
 							title="Like"
 						/>
 					</div>
 					<div>
-						<span>{opinions.length}</span>&nbsp;
+						<span>{comment.opinions.length}</span>&nbsp;
 						<FontAwesomeIcon
 							color="grey"
 							icon={faComment}
@@ -99,7 +117,7 @@ export const Opinions = () => {
 				</ContainerLikesAndComments>
 			</Card>
 			<CommentsContainer>
-				<h1>Comments Here!</h1>
+				<h1>Comments!</h1>
 			</CommentsContainer>
 		</>
 	);

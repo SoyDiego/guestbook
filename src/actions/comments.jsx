@@ -2,7 +2,6 @@ import { db } from "../firebase/config";
 import { types } from "../types/types";
 import Swal from "sweetalert2";
 import { messageSweetAlert } from "../helpers/helpers";
-import { startLoading, finishLoading } from "./ui";
 
 export const startNewCommentOrEdit = (action, id, body) => {
 	return async (dispatch, getState) => {
@@ -56,32 +55,6 @@ export const startNewCommentOrEdit = (action, id, body) => {
 					);
 				}
 			}
-		}
-	};
-};
-
-export const startLoadComments = () => {
-	return async (dispatch) => {
-		dispatch(startLoading());
-		try {
-			await db
-				.collection("guestbook")
-				.orderBy("date", "desc")
-				.onSnapshot((docSnap) => {
-					const comments = docSnap.docs.map((doc) => {
-						return {
-							id: doc.id,
-							...doc.data(),
-						};
-					});
-					dispatch(loadComments(comments));
-					dispatch(finishLoading());
-				});
-		} catch (error) {
-			messageSweetAlert(
-				"error",
-				`Something went wrong... :( || Error: ${error}`
-			);
 		}
 	};
 };

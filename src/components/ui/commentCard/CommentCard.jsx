@@ -13,7 +13,6 @@ import {
 	startDeleteComment,
 	startVoteComment,
 	startNewCommentOrEdit,
-	commentActive,
 } from "../../../actions/comments";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -52,9 +51,8 @@ export const CommentCard = (comment) => {
 		}
 	};
 
-	const handleComment = (idComment) => {
-		dispatch(commentActive(comment));
-		history.push(`/comment/${idComment}`);
+	const handleComment = () => {
+		history.push(`/comment/${id}`);
 	};
 
 	return (
@@ -88,7 +86,7 @@ export const CommentCard = (comment) => {
 						title="Like"
 					/>
 				</div>
-				<div onClick={() => handleComment(id)}>
+				<div onClick={handleComment}>
 					<span>{opinions.length}</span>&nbsp;
 					<FontAwesomeIcon
 						color="grey"
