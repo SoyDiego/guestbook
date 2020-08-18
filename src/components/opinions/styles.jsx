@@ -25,3 +25,17 @@ export const Opinion = styled.div`
 		justify-content: flex-end;
 	}
 `;
+
+export const Form = styled.form`
+	width: 80%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	textarea {
+		padding: 1rem;
+		width: 100%;
+		height: 4rem;
+	}
+`;

@@ -41,7 +41,7 @@ export const Button = styled.button`
 	padding: 1rem;
 	cursor: pointer;
 	border: 2px solid #f78e69;
-	color: white;
+	color: ${(props) => (props.color === "black" ? "black" : " white")};
 	transition: background-color 0.5s ease;
 
 	&:hover {

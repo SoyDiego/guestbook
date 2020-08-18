@@ -4,7 +4,6 @@ export const commentsReducer = (state = [], action) => {
 	switch (action.type) {
 		case types.commentsAddNew:
 		case types.commentsEdit:
-		case types.commentsAndOpinionsLoad:
 			return [...state];
 
 		case types.commentsLoad:
@@ -29,6 +28,11 @@ export const commentsReducer = (state = [], action) => {
 		case types.commentsActive:
 			return {
 				active: action.payload,
+				...state,
+			};
+
+		case types.commentsAndOpinionsLoad:
+			return {
 				...state,
 			};
 

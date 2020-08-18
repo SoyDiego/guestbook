@@ -58,6 +58,32 @@ export const startNewCommentOrEdit = (action, id, body) => {
 		}
 	};
 };
+export const startNewOpinion = (id, opinionsInDB, opinionToAdd) => {
+	return async (dispatch, getState) => {
+		const { uid, username } = getState().auth;
+
+		const newOpinion = {
+			userId: uid,
+			username: username,
+			body: opinionToAdd,
+			date: new Date().getTime(),
+		};
+
+		opinionsInDB.push(newOpinion);
+
+		try {
+			await db.collection(`guestbook`).doc(id).update({
+				opinions: opinionsInDB,
+			});
+			messageSweetAlert("success", "Opinion added, thanks! :)");
+		} catch (error) {
+			messageSweetAlert(
+				"error",
+				`Something went wrong... :( || Error: ${error}`
+			);
+		}
+	};
+};
 
 export const startDeleteComment = (idComment) => {
 	return (dispatch) => {
@@ -118,6 +144,10 @@ export const loadComments = (comments) => ({
 
 export const loadCommentAndOpinions = () => ({
 	type: types.commentsAndOpinionsLoad,
+});
+
+export const addNewOpinion = () => ({
+	type: types.commentsNewOpinion,
 });
 
 export const addNewComment = (id, comment) => ({

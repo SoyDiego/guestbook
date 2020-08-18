@@ -13,6 +13,7 @@ import {
 	startDeleteComment,
 	startVoteComment,
 	startNewCommentOrEdit,
+	commentActive,
 } from "../../../actions/comments";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -52,6 +53,7 @@ export const CommentCard = (comment) => {
 	};
 
 	const handleComment = () => {
+		dispatch(commentActive(comment));
 		history.push(`/comment/${id}`);
 	};
 

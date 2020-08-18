@@ -14,6 +14,7 @@ import {
 	startVoteComment,
 	startNewCommentOrEdit,
 	loadCommentAndOpinions,
+	startNewOpinion,
 } from "../../actions/comments";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -23,18 +24,28 @@ import {
 	faComment,
 } from "@fortawesome/free-solid-svg-icons";
 import { useParams, useHistory } from "react-router-dom";
-import { OpinionsContainer, Opinion } from "./styles";
+import { OpinionsContainer, Opinion, Form } from "./styles";
 import { db } from "../../firebase/config";
 import { Loading } from "../ui/loading/Loading";
+import { Button } from "../ui/Navigation/styles";
+import { useForm } from "../../hooks/useForm";
 
 export const Opinions = () => {
 	const history = useHistory();
+	const { id } = useParams();
+
 	const [isChecked, setIsChecked] = useState(false);
 	const [comment, setComment] = useState(null);
 	const dispatch = useDispatch();
 	const userLogged = useSelector((state) => state.auth.username);
+	const { opinions } = useSelector((state) => state.comments.active);
 	const uid = useSelector((state) => state.auth.uid);
-	const { id } = useParams();
+	const [values, handleInputChange, reset] = useForm({
+		opinionToDB: "",
+	});
+
+	const { opinionToDB } = values;
+
 	useEffect(() => {
 		const unsuscribe = db
 			.collection("guestbook")
@@ -70,6 +81,13 @@ export const Opinions = () => {
 			comment.usersWhoVoted.push(uid);
 			dispatch(startVoteComment(id, comment.usersWhoVoted, "add"));
 		}
+	};
+
+	const handleNewOpinion = (e) => {
+		e.preventDefault();
+
+		dispatch(startNewOpinion(id, opinions, opinionToDB));
+		reset();
 	};
 
 	if (!comment) return <Loading />;
@@ -118,41 +136,37 @@ export const Opinions = () => {
 					</div>
 				</ContainerLikesAndComments>
 			</Card>
+
+			<Form onSubmit={handleNewOpinion}>
+				<textarea
+					name="opinionToDB"
+					value={opinionToDB}
+					onChange={handleInputChange}
+				/>
+				<Button type="submit" color="black">
+					Send your opinion
+				</Button>
+			</Form>
+
 			<OpinionsContainer>
-				<h1>Opinions!</h1>
-				<Opinion>
-					<div className="opinionBody">
-						<p>
-							Lorem ipsum dolor sit amet consectetur, adipisicing
-							elit. Harum, maiores?
-						</p>
-					</div>
-					<div className="authorAndDate">
-						<p>Author - Date</p>
-					</div>
-				</Opinion>
-				<Opinion>
-					<div className="opinionBody">
-						<p>
-							Lorem ipsum dolor sit amet consectetur, adipisicing
-							elit. Harum, maiores?
-						</p>
-					</div>
-					<div className="authorAndDate">
-						<p>Author - Date</p>
-					</div>
-				</Opinion>
-				<Opinion>
-					<div className="opinionBody">
-						<p>
-							Lorem ipsum dolor sit amet consectetur, adipisicing
-							elit. Harum, maiores?
-						</p>
-					</div>
-					<div className="authorAndDate">
-						<p>Author - Date</p>
-					</div>
-				</Opinion>
+				{opinions.length > 0 ? (
+					<h1>Opinions</h1>
+				) : (
+					<h1>No opinions yet :(</h1>
+				)}
+				{opinions.map((opinion) => (
+					<Opinion key={opinion.date}>
+						<div className="opinionBody">
+							<p>{opinion.body}</p>
+						</div>
+						<div className="authorAndDate">
+							<p>
+								<strong>{opinion.username}</strong> -&nbsp;
+								{moment(opinion.date).fromNow()}...
+							</p>
+						</div>
+					</Opinion>
+				))}
 			</OpinionsContainer>
 		</>
 	);
