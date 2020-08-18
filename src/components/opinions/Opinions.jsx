@@ -39,7 +39,7 @@ export const Opinions = () => {
 	const [comment, setComment] = useState(null);
 	const dispatch = useDispatch();
 	const userLogged = useSelector((state) => state.auth.username);
-	const opinions = useSelector((state) => state.comments.active?.opinions);
+	const opinions = useSelector((state) => state.activeComment.opinions);
 	const uid = useSelector((state) => state.auth.uid);
 	const [values, handleInputChange, reset] = useForm({
 		opinionToDB: "",

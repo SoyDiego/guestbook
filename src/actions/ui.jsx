@@ -9,3 +9,7 @@ export const finishLoading = () => ({
 	type: types.uiHideLoading,
 	payload: false,
 });
+
+export const cleanLoading = () => ({
+	type: types.uiCleanLoading,
+});

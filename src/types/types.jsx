@@ -8,7 +8,9 @@ export const types = {
 	commentsVoteAdd: "[Comments] Add Vote",
 	commentsVoteRemove: "[Comments] Remove Vote",
 	commentsActive: "[Comments] Set Active Comment",
+	commentsActiveClean: "[Comments] Clean Active Comment",
 
 	uiShowLoading: "[UI] Show Loading",
 	uiHideLoading: "[UI] Hide Loading",
+	uiCleanLoading: "[UI] Clean Loading",
 };

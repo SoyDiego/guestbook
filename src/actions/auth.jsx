@@ -1,7 +1,6 @@
 import { firebase } from "../firebase/config";
 import { types } from "../types/types";
 import Swal from "sweetalert2";
-import { commentsLogout } from "./comments";
 
 export const registerNewUser = (email, password, username) => {
 	return async (dispatch) => {
@@ -79,7 +78,6 @@ export const startLogout = () => {
 		await firebase.auth().signOut();
 
 		dispatch(logoutUser());
-		dispatch(commentsLogout());
 	};
 };
 
