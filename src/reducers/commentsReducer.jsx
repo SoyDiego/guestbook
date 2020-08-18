@@ -19,9 +19,7 @@ export const commentsReducer = (state = [], action) => {
 			];
 
 		case types.commentsAndOpinionsLoad:
-			return {
-				...state,
-			};
+			return [...state];
 
 		case types.commentsCleanLogout:
 			return [];
