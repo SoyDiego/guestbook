@@ -4,9 +4,6 @@ export const types = {
 
 	commentsLoad: "[Comments] Load comments",
 	commentsAndOpinionsLoad: "[Comments] Load comment & opinions",
-	commentsAddNew: "[Comments] New comment",
-	commentsEdit: "[Comments] Edit comment",
-	commentsDelete: "[Comments] Delete comment",
 	commentsCleanLogout: "[Comments] Clean Logout",
 	commentsVoteAdd: "[Comments] Add Vote",
 	commentsVoteRemove: "[Comments] Remove Vote",

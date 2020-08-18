@@ -29,6 +29,7 @@ import { db } from "../../firebase/config";
 import { Loading } from "../ui/loading/Loading";
 import { Button } from "../ui/Navigation/styles";
 import { useForm } from "../../hooks/useForm";
+import Swal from "sweetalert2";
 
 export const Opinions = () => {
 	const history = useHistory();
@@ -38,11 +39,13 @@ export const Opinions = () => {
 	const [comment, setComment] = useState(null);
 	const dispatch = useDispatch();
 	const userLogged = useSelector((state) => state.auth.username);
-	const { opinions } = useSelector((state) => state.comments.active);
+	const opinions = useSelector((state) => state.comments.active?.opinions);
 	const uid = useSelector((state) => state.auth.uid);
 	const [values, handleInputChange, reset] = useForm({
 		opinionToDB: "",
 	});
+
+	if (opinions === undefined) history.push("/");
 
 	const { opinionToDB } = values;
 
@@ -85,6 +88,15 @@ export const Opinions = () => {
 
 	const handleNewOpinion = (e) => {
 		e.preventDefault();
+
+		if (opinionToDB === "") {
+			Swal.fire({
+				icon: "error",
+				title: "Oops...",
+				text: "Please complete the field.",
+			});
+			return;
+		}
 
 		dispatch(startNewOpinion(id, opinions, opinionToDB));
 		reset();

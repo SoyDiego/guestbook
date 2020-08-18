@@ -30,10 +30,7 @@ export const startNewCommentOrEdit = (action, id, body) => {
 				};
 
 				try {
-					const doc = await db
-						.collection(`guestbook`)
-						.add(newComment);
-					dispatch(addNewComment(doc.id, newComment));
+					await db.collection(`guestbook`).add(newComment);
 					messageSweetAlert("success", "Comment added, thanks! :)");
 				} catch (error) {
 					messageSweetAlert(
@@ -46,7 +43,6 @@ export const startNewCommentOrEdit = (action, id, body) => {
 					await db.collection(`guestbook`).doc(id).update({
 						body: comment,
 					});
-					dispatch(editComment());
 					messageSweetAlert("success", "Comment edited.");
 				} catch (error) {
 					messageSweetAlert(
@@ -99,7 +95,6 @@ export const startDeleteComment = (idComment) => {
 			}).then(async (result) => {
 				if (result.value) {
 					await db.collection("guestbook").doc(idComment).delete();
-					dispatch(deleteComment(idComment));
 
 					Swal.fire(
 						"Deleted!",
@@ -144,23 +139,6 @@ export const loadComments = (comments) => ({
 
 export const loadCommentAndOpinions = () => ({
 	type: types.commentsAndOpinionsLoad,
-});
-
-export const addNewOpinion = () => ({
-	type: types.commentsNewOpinion,
-});
-
-export const addNewComment = (id, comment) => ({
-	type: types.commentsAddNew,
-});
-
-export const editComment = () => ({
-	type: types.commentsEdit,
-});
-
-export const deleteComment = (id) => ({
-	type: types.commentsDelete,
-	payload: id,
 });
 
 export const addVoteComment = (id, usersWhoVoted) => ({
