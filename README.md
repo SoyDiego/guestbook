@@ -17,8 +17,8 @@ A simple guestbook, that's it :).
 -   Delete comments (only the comment creator can delete your own comment).
 -   Update in Real Time.
 -   Like / Dislike comments.
--   Total likes comments.
 -   Add opinions (comments in comments)
+-   Total likes and opinions.
 
 ## DEMO
 
@@ -30,4 +30,4 @@ https://guestbook-reactjs.netlify.app/
 
 -   Comment & Opinions
 
-![Screenshot](https://i.imgur.com/tNlHWkF.png)
+![Screenshot](https://i.imgur.com/txx1dgy.png)
