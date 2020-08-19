@@ -23,6 +23,7 @@ export const Opinion = styled.div`
 	.authorAndDate {
 		display: flex;
 		justify-content: flex-end;
+		align-items: center;
 	}
 `;
 

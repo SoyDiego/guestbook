@@ -66,3 +66,14 @@ export const ContainerLikesAndComments = styled.div`
 		cursor: pointer;
 	}
 `;
+
+export const CreatorTag = styled.p`
+	margin: 0 0.5rem;
+	padding: 0.5rem;
+	background-color: #ff6961;
+	color: white;
+
+	span {
+		color: black;
+	}
+`;

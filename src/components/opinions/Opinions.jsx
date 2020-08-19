@@ -7,6 +7,7 @@ import {
 	ActionButton,
 	ContainerLikesAndComments,
 	ContainerActionButton,
+	CreatorTag,
 } from "../ui/commentCard/styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,6 +23,7 @@ import {
 	faTrashAlt,
 	faHeart,
 	faComment,
+	faCheckDouble,
 } from "@fortawesome/free-solid-svg-icons";
 import { useParams, useHistory } from "react-router-dom";
 import { OpinionsContainer, Opinion, Form } from "./styles";
@@ -172,6 +174,12 @@ export const Opinions = () => {
 							<p>{opinion.body}</p>
 						</div>
 						<div className="authorAndDate">
+							{opinion.username === comment.username && (
+								<CreatorTag>
+									<span>CREATOR</span>&nbsp;
+									<FontAwesomeIcon icon={faCheckDouble} />
+								</CreatorTag>
+							)}
 							<p>
 								<strong>{opinion.username}</strong> -&nbsp;
 								{moment(opinion.date).fromNow()}...
