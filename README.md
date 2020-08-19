@@ -18,9 +18,16 @@ A simple guestbook, that's it :).
 -   Update in Real Time.
 -   Like / Dislike comments.
 -   Total likes comments.
+-   Add opinions (comments in comments)
 
 ## DEMO
 
 https://guestbook-reactjs.netlify.app/
 
-![Screenshot](https://i.imgur.com/InTwrx2.png)
+-   Main
+
+![Screenshot](https://i.imgur.com/51XlFxq.png)
+
+-   Comment & Opinions
+
+![Screenshot](https://i.imgur.com/tNlHWkF.png)
